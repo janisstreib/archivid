@@ -1,5 +1,5 @@
 # archivid
-A stupid combination of scripts to play random archillect.com videos/GIFs in a random order.
+A stupid combination of scripts to play archillect.com videos/GIFs in a random order.
 
 ## Requirements
  * Python3
