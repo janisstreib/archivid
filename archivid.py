@@ -25,10 +25,34 @@ class MyHTMLParser(HTMLParser):
         self.vid_url = None
         return v
 
-parser = MyHTMLParser()
-s = requests.Session()
+class MainPageParser(HTMLParser):
+    max_id = None
+    found = False
+    found_found = False
+    def handle_starttag(self, tag, attrs):
+        if self.found_found:
+            return
+        if tag == 'div' or tag == 'a':
+            for n,k in attrs:
+                if n == 'href':
+                    if self.found and not self.found_found:
+                        self.max_id = int(k[1:])
+                        self.found_found = True
+                if n == 'id' and k == 'container':
+                    self.found = True
+    def handle_endtag(self, tag):
+        pass
+    
+    def handle_data(self, data):
+        pass
 
-for i in range(1,157911):
+
+parser = MyHTMLParser()
+max_id_p = MainPageParser()
+s = requests.Session()
+data = s.get('http://archillect.com/').text
+max_id_p.feed(data)
+for i in range(1,max_id_p.max_id):
     print(i, file=sys.stderr)
     data = s.get('http://archillect.com/'+str(i)).text
     #print(data.split('='))
